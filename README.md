@@ -85,3 +85,23 @@ contract ErrorHandlingContract {
 4. Test your contract
 
    In the interactive Truffle console
+
+   # Error Handling Smart Contract
+
+This repository contains a simple Solidity smart contract that demonstrates the usage of `require()`, `assert()`, and `revert()` statements for error handling in Ethereum smart contracts.
+
+## Contract Overview
+
+The `ErrorHandlingContract` contract showcases the usage of different error handling mechanisms:
+
+1. The `setValue(uint256 _newValue)` function uses the `require()` statement to validate conditions before updating the contract state. It also employs the `assert()` statement to check internal invariants to prevent logical errors.
+
+2. The `throwError()` function demonstrates the use of the `revert()` statement to intentionally revert a transaction. This can be useful for controlled failure scenarios in testing or debugging.
+
+## Usage
+
+1. Clone this repository to your local machine:
+
+   ```bash
+   git clone https://https://github.com/anurag1280/solidity_starter.git
+
