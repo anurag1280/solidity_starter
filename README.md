@@ -1,4 +1,4 @@
-# Hello World! in Solidity
+# ErrorHandlingContract in Solidity
 
 
 ## Install
@@ -24,33 +24,51 @@
 
    After initialization, you will find two folders called `contracts` and `migrations`. Contracts go in the `contracts` folder while contract deployment settings go in `migrations`.
 
-2. The "Hello World!" contract
+2. The "ErrorHandlingContract" contract
 
-   This is an example of a "Hello World!" contract in Solidity. 
-   "HelloWorld.sol" in `contracts` contains the following code:
 
    ```solidity
-   // SPDX-License-Identifier: MIT
-   // compiler version must be greater than or equal to 0.8.17 and less than 0.9.0
-   pragma solidity ^0.8.17;
-   
-   contract HelloWorld {
-       string public greet = "Hello World!";
-   }   
+   /// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ErrorHandlingContract {
+    uint256 public value;
+
+    /**
+     * @dev Sets the value to a new provided value.
+     * @param _newValue The new value to be set.
+     *
+     * Requirements:
+     * - The `_newValue` parameter must be greater than 0.
+     * - The `_newValue` must be different from the current `value`.
+     */
+    function setValue(uint256 _newValue) public {
+        // Using require() to validate the condition
+        require(_newValue > 0, "New value must be greater than 0");
+
+        // Using assert() to check an internal invariant
+        // This assertion ensures that the new value is not the same as the current value.
+        // If the assertion fails, it indicates a bug in the code logic.
+        assert(_newValue != value);
+
+        // Update the value with the new input
+        value = _newValue;
+    }
+
+    /**
+     * @dev Throws an error unconditionally.
+     * This function will always revert the transaction with the given error message.
+     * This can be useful for creating predictable fail scenarios for testing.
+     */
+    function throwError() public pure {
+        // Using revert() to intentionally revert the transaction
+        // This is a way to handle specific scenarios where reverting is desired.
+        revert("This transaction will always revert");
+    }
+}
    ```
 
-3. Prepare the migration
-
-   "2_deploy_migration.js" in `migrations` contains the following code:
-
-   ```javascript
-   var HelloWorld = artifacts.require("HelloWorld");
-   module.exports = function(deployer) {
-     deployer.deploy(HelloWorld);
-   }
-   ```
-
-4. Start Truffle console in development mode
+3. Start Truffle console in development mode
 
    ```bash
    truffle develop
@@ -64,17 +82,6 @@
    ```
    If you want to remigrate existing contracts, run `migrate --reset` instead of simply `migrate`.
 
-5. Test your contract
+4. Test your contract
 
-   In the interactive Truffle console, run the following commands:
-
-   ```javascript
-   let instance = await HelloWorld.deployed()
-   instance.greet()
-   ```
-
-   Then you will see:
-
-   ```bash
-   'Hello World!'
-   ```
+   In the interactive Truffle console
